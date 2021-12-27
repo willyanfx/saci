@@ -74,5 +74,5 @@
 
     "resolveJsonModule": true
   },
-  "include": ["src"]
+  "include": ["src/**/*", "./jest-setup.js"]
 }
