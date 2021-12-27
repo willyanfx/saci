@@ -1,9 +1,10 @@
 // Path: src/buttons/index.tsx
 import React from 'react';
 import { styled } from '@stitches/react';
+import type * as Stitches from '@stitches/react';
 
 export interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
-  variant?: 'secondary' | 'primary' | 'danger';
+  appearance?: 'secondary' | 'primary';
   size?: 'small' | 'medium' | 'large';
   isFullWidth?: boolean;
 }
@@ -11,33 +12,48 @@ export interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
 const Button = React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<'button'>
->(({ children, variant, size, isFullWidth, ...props }: ButtonProps, ref) => {
+>(({ children, appearance, size, isFullWidth, ...props }: ButtonProps, ref) => {
   return (
-    <UIButton
+    <StyledButton
       ref={ref}
-      variant={variant}
       size={size}
       isFullWidth={isFullWidth}
-      type="button"
+      appearance={appearance}
+      type="StyledButton"
       {...props}
     >
       {children}
-    </UIButton>
+    </StyledButton>
   );
 });
 
-const UIButton = styled('button', {
-  backgroundColor: 'gainsboro',
+export const StyledButton: ButtonProps = styled('button', {
+  variants: {
+    appearance: {
+      primary: { background: 'gainsboro' },
+      secondary: { background: 'blue' }
+    },
+    size: {
+      small: { padding: '10px 15px' },
+      medium: { padding: '10px 15px' },
+      large: { padding: '10px 15px' }
+    },
+    isFullWidth: {
+      true: { width: '100%' }
+    }
+  },
   borderRadius: '9999px',
   fontSize: '13px',
-  padding: '10px 15px',
+
   '&:hover': {
     backgroundColor: 'lightgray'
   }
 });
 
+type StyledButtonVariants = Stitches.VariantProps<typeof StyledButton>;
+
 Button.defaultProps = {
-  variant: 'primary',
+  appearance: 'primary',
   size: 'medium',
   isFullWidth: false
 } as ButtonProps;
